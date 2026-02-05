@@ -4,11 +4,11 @@
 
 @layer base {
   * {
-    @apply border-gray-200;
+    @apply border-gray-200 dark:border-gray-700;
   }
 
   body {
-    @apply bg-white text-gray-900;
+    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
   }
 }
 
@@ -26,7 +26,7 @@
   }
 
   .btn-secondary {
-    @apply btn bg-gray-100 text-gray-900 hover:bg-gray-200;
+    @apply btn bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600;
   }
 
   .btn-danger {
@@ -34,6 +34,6 @@
   }
 
   .card {
-    @apply rounded-lg border bg-white text-gray-900 shadow-sm;
+    @apply rounded-lg border bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 shadow-sm;
   }
 }

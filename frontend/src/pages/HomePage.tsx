@@ -40,138 +40,126 @@ export function HomePage() {
   });
 
   return (
-    <div className="container py-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Plant Disease Detection
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Upload an image of a plant leaf to detect diseases and get treatment
-            recommendations using our AI-powered system.
-          </p>
-        </div>
-
-        {/* Upload Area */}
-        <div className="mb-8">
-          <div
-            {...getRootProps()}
-            className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${
-              isDragActive
-                ? "border-primary-500 bg-primary-50"
-                : "border-gray-300 hover:border-primary-400 hover:bg-gray-50"
-            }`}
-          >
-            <input {...getInputProps()} />
-            <div className="flex flex-col items-center space-y-4">
-              <Upload className="h-12 w-12 text-gray-400" />
-              <div>
-                <p className="text-lg font-medium text-gray-900">
-                  {isDragActive
-                    ? "Drop the image here..."
-                    : "Drag and drop an image, or click to select"}
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  PNG, JPG, JPEG, WEBP up to 10MB
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Loading State */}
-        {mutation.isPending && (
-          <div className="card p-6 mb-8">
-            <div className="flex items-center justify-center space-x-3">
-              <Loader2 className="h-6 w-6 animate-spin text-primary-600" />
-              <span className="text-lg font-medium text-gray-900">
-                Analyzing image...
-              </span>
-            </div>
-          </div>
-        )}
-
-        {/* Error State */}
-        {mutation.isError && (
-          <div className="card p-6 mb-8 border-danger-200 bg-danger-50">
-            <div className="flex items-center space-x-3">
-              <AlertCircle className="h-6 w-6 text-danger-600" />
-              <div>
-                <h3 className="text-lg font-medium text-danger-900">
-                  Analysis Failed
-                </h3>
-                <p className="text-danger-700 mt-1">
-                  {(mutation.error as any)?.message ||
-                    "An error occurred while analyzing the image."}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Success State */}
-        {prediction && !mutation.isPending && (
-          <div className="space-y-6">
-            <div className="card p-6 border-primary-200 bg-primary-50">
-              <div className="flex items-center space-x-3">
-                <CheckCircle className="h-6 w-6 text-primary-600" />
-                <div>
-                  <h3 className="text-lg font-medium text-primary-900">
-                    Analysis Complete
-                  </h3>
-                  <p className="text-primary-700 mt-1">
-                    Disease detection analysis has been completed successfully.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <PredictionCard prediction={prediction} />
-          </div>
-        )}
-
-        {/* Features */}
-        {!prediction && !mutation.isPending && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <div className="text-center">
-              <div className="bg-primary-100 rounded-full p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                <Upload className="h-6 w-6 text-primary-600" />
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Easy Upload
-              </h3>
-              <p className="text-gray-600">
-                Simply drag and drop or click to upload plant images
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-primary-100 rounded-full p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                <AlertCircle className="h-6 w-6 text-primary-600" />
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                AI Detection
-              </h3>
-              <p className="text-gray-600">
-                Advanced machine learning models detect diseases accurately
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-primary-100 rounded-full p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                <CheckCircle className="h-6 w-6 text-primary-600" />
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Treatment Guide
-              </h3>
-              <p className="text-gray-600">
-                Get detailed treatment recommendations for identified diseases
-              </p>
-            </div>
-          </div>
-        )}
+  <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 transition-colors duration-300">
+    <div className="max-w-4xl mx-auto">
+      
+      {/* Header */}
+      <div className="text-center mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">
+          Plant Disease Detection
+        </h1>
+        <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          Upload an image of a plant leaf to detect diseases and get treatment
+          recommendations using our AI-powered system.
+        </p>
       </div>
+
+      {/* Upload Area */}
+      <div className="mb-6 sm:mb-8">
+        <div
+          {...getRootProps()}
+          className={`border-2 border-dashed rounded-lg p-6 sm:p-8 text-center transition-colors cursor-pointer ${
+            isDragActive
+              ? "border-primary-500 bg-primary-50 dark:bg-gray-800"
+              : "border-gray-300 dark:border-gray-600 hover:border-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+          }`}
+        >
+          <input {...getInputProps()} />
+          <div className="flex flex-col items-center space-y-3 sm:space-y-4">
+            <Upload className="h-10 w-10 sm:h-12 sm:w-12 text-gray-400 dark:text-gray-500" />
+            <div>
+              <p className="text-base sm:text-lg font-medium text-gray-900 dark:text-gray-100">
+                {isDragActive
+                  ? "Drop the image here..."
+                  : "Drag and drop an image, or click to select"}
+              </p>
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                PNG, JPG, JPEG, WEBP up to 10MB
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Loading State */}
+      {mutation.isPending && (
+        <div className="p-4 sm:p-6 mb-6 sm:mb-8 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-colors">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Loader2 className="h-5 w-5 sm:h-6 sm:w-6 animate-spin text-primary-600" />
+            <span className="text-base sm:text-lg font-medium text-gray-900 dark:text-gray-100">
+              Analyzing image...
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Error State */}
+      {mutation.isError && (
+        <div className="p-4 sm:p-6 mb-6 sm:mb-8 rounded-lg border border-danger-200 dark:border-danger-700 bg-danger-50 dark:bg-danger-900/20 transition-colors">
+          <div className="flex flex-col sm:flex-row items-start gap-3">
+            <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-danger-600 dark:text-danger-400 mt-1" />
+            <div>
+              <h3 className="text-base sm:text-lg font-medium text-danger-900 dark:text-danger-300">
+                Analysis Failed
+              </h3>
+              <p className="text-sm sm:text-base text-danger-700 dark:text-danger-400 mt-1">
+                {(mutation.error as any)?.message ||
+                  "An error occurred while analyzing the image."}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success State */}
+      {prediction && !mutation.isPending && (
+        <div className="space-y-4 sm:space-y-6">
+          <div className="p-4 sm:p-6 rounded-lg border border-primary-200 dark:border-primary-700 bg-primary-50 dark:bg-primary-900/20 transition-colors">
+            <div className="flex flex-col sm:flex-row items-start gap-3">
+              <CheckCircle className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-primary-400 mt-1" />
+              <div>
+                <h3 className="text-base sm:text-lg font-medium text-primary-900 dark:text-primary-300">
+                  Analysis Complete
+                </h3>
+                <p className="text-sm sm:text-base text-primary-700 dark:text-primary-400 mt-1">
+                  Disease detection analysis has been completed successfully.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <PredictionCard prediction={prediction} />
+        </div>
+      )}
+
+      {/* Features */}
+      {!prediction && !mutation.isPending && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10 sm:mt-12">
+          {[ 
+            { icon: Upload, title: "Easy Upload", desc: "Simply drag and drop or click to upload plant images" },
+            { icon: AlertCircle, title: "AI Detection", desc: "Advanced machine learning models detect diseases accurately" },
+            { icon: CheckCircle, title: "Treatment Guide", desc: "Get detailed treatment recommendations for identified diseases" },
+          ].map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <div key={index} className="text-center px-2">
+                <div className="bg-primary-100 dark:bg-primary-900/30 rounded-full p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center transition-colors">
+                  <Icon className="h-6 w-6 text-primary-600 dark:text-primary-400" />
+                </div>
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                  {item.desc}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
+
+
 }

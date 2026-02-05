@@ -18,13 +18,13 @@ export function PredictionCard({ prediction }: PredictionCardProps) {
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case "low":
-        return "text-green-600 bg-green-100";
+        return "text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900/30";
       case "medium":
-        return "text-yellow-600 bg-yellow-100";
+        return "text-yellow-600 bg-yellow-100 dark:text-yellow-400 dark:bg-yellow-900/30";
       case "high":
-        return "text-red-600 bg-red-100";
+        return "text-red-600 bg-red-100 dark:text-red-400 dark:bg-red-900/30";
       default:
-        return "text-gray-600 bg-gray-100";
+        return "text-gray-600 bg-gray-100 dark:text-gray-300 dark:bg-gray-700";
     }
   };
 
@@ -41,51 +41,52 @@ export function PredictionCard({ prediction }: PredictionCardProps) {
     }
   };
 
-  const formatConfidence = (confidence: number) => {
-    return `${(confidence * 100).toFixed(1)}%`;
-  };
+  const formatConfidence = (confidence: number) =>
+    `${(confidence * 100).toFixed(1)}%`;
 
-  const formatDate = (timestamp: string) => {
-    return new Date(timestamp).toLocaleString();
-  };
+  const formatDate = (timestamp?: string) =>
+    timestamp ? new Date(timestamp).toLocaleString() : new Date().toLocaleString();
 
   return (
-    <div className="card p-6">
+    <div className="card p-6 transition-colors duration-300">
       <div className="space-y-6">
+        
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             Detection Results
           </h2>
-          <div className="text-sm text-gray-500">
-            {prediction.timestamp
-              ? formatDate(prediction.timestamp)
-              : new Date().toLocaleString()}
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            {formatDate(prediction.timestamp)}
           </div>
         </div>
 
-        {/* Disease Information */}
+        {/* Basic Info */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-gray-700 mb-2">Disease</h3>
-            <p className="text-lg font-semibold text-gray-900">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">
+              Disease
+            </h3>
+            <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {prediction.disease === "None"
                 ? `Healthy ${prediction.plant}`
                 : prediction.disease}
             </p>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-gray-700 mb-2">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">
               Confidence
             </h3>
-            <p className="text-lg font-semibold text-gray-900">
+            <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {formatConfidence(prediction.confidence)}
             </p>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-gray-700 mb-2">Severity</h3>
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">
+              Severity
+            </h3>
             <div
               className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium ${getSeverityColor(
                 prediction.severity
@@ -97,24 +98,24 @@ export function PredictionCard({ prediction }: PredictionCardProps) {
           </div>
         </div>
 
-        {/* Disease Details */}
+        {/* Disease Information */}
         {(prediction.symptoms?.length ||
-          prediction.causes ||
-          prediction.urgency ||
-          prediction.economic_impact) && (
+          prediction.causes?.trim() ||
+          prediction.urgency?.trim() ||
+          prediction.economic_impact?.trim()) && (
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               Disease Information
             </h3>
 
             {/* Symptoms */}
-            {prediction.symptoms && prediction.symptoms.length > 0 && (
-              <div className="bg-blue-50 rounded-lg p-4">
-                <h4 className="font-medium text-blue-900 mb-2 flex items-center">
+            {prediction.symptoms?.length ? (
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                <h4 className="font-medium text-blue-900 dark:text-blue-300 mb-2 flex items-center">
                   <Eye className="h-4 w-4 mr-2" />
                   Symptoms to Look For
                 </h4>
-                <ul className="text-blue-800 text-sm space-y-1">
+                <ul className="text-blue-800 dark:text-blue-400 text-sm space-y-1">
                   {prediction.symptoms.map((symptom, index) => (
                     <li key={index} className="flex items-start">
                       <span className="mr-2">•</span>
@@ -123,104 +124,97 @@ export function PredictionCard({ prediction }: PredictionCardProps) {
                   ))}
                 </ul>
               </div>
-            )}
+            ) : null}
 
             {/* Causes */}
-            {prediction.causes && prediction.causes.trim().length > 0 && (
-              <div className="bg-amber-50 rounded-lg p-4">
-                <h4 className="font-medium text-amber-900 mb-2 flex items-center">
+            {prediction.causes?.trim() && (
+              <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4">
+                <h4 className="font-medium text-amber-900 dark:text-amber-300 mb-2 flex items-center">
                   <AlertCircle className="h-4 w-4 mr-2" />
                   What Causes This Disease
                 </h4>
-                <p className="text-amber-800 text-sm">{prediction.causes}</p>
+                <p className="text-amber-800 dark:text-amber-400 text-sm">
+                  {prediction.causes}
+                </p>
               </div>
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Urgency */}
-              {prediction.urgency && prediction.urgency.trim().length > 0 && (
-                <div className="bg-red-50 rounded-lg p-4">
-                  <h4 className="font-medium text-red-900 mb-2 flex items-center">
+              {prediction.urgency?.trim() && (
+                <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
+                  <h4 className="font-medium text-red-900 dark:text-red-300 mb-2 flex items-center">
                     <Activity className="h-4 w-4 mr-2" />
                     Treatment Urgency
                   </h4>
-                  <p className="text-red-800 text-sm">{prediction.urgency}</p>
+                  <p className="text-red-800 dark:text-red-400 text-sm">
+                    {prediction.urgency}
+                  </p>
                 </div>
               )}
 
-              {/* Economic Impact */}
-              {prediction.economic_impact &&
-                prediction.economic_impact.trim().length > 0 && (
-                  <div className="bg-purple-50 rounded-lg p-4">
-                    <h4 className="font-medium text-purple-900 mb-2 flex items-center">
-                      <DollarSign className="h-4 w-4 mr-2" />
-                      Economic Impact
-                    </h4>
-                    <p className="text-purple-800 text-sm">
-                      {prediction.economic_impact}
-                    </p>
-                  </div>
-                )}
+              {prediction.economic_impact?.trim() && (
+                <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+                  <h4 className="font-medium text-purple-900 dark:text-purple-300 mb-2 flex items-center">
+                    <DollarSign className="h-4 w-4 mr-2" />
+                    Economic Impact
+                  </h4>
+                  <p className="text-purple-800 dark:text-purple-400 text-sm">
+                    {prediction.economic_impact}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         )}
 
         {/* Treatment Recommendations */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
             Treatment Recommendations
           </h3>
 
-          {/* Chemical Treatments */}
-          {prediction.treatment?.chemical &&
-            prediction.treatment.chemical.trim().length > 0 && (
-              <div className="bg-blue-50 rounded-lg p-4">
-                <h4 className="font-medium text-blue-900 mb-2 flex items-center">
-                  <Zap className="h-4 w-4 mr-2" />
-                  Chemical Treatments
-                </h4>
-                <p className="text-blue-800 text-sm">
-                  {prediction.treatment.chemical}
-                </p>
-              </div>
-            )}
+          {prediction.treatment?.chemical?.trim() && (
+            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+              <h4 className="font-medium text-blue-900 dark:text-blue-300 mb-2 flex items-center">
+                <Zap className="h-4 w-4 mr-2" />
+                Chemical Treatments
+              </h4>
+              <p className="text-blue-800 dark:text-blue-400 text-sm">
+                {prediction.treatment.chemical}
+              </p>
+            </div>
+          )}
 
-          {/* Cultural Treatments */}
-          {prediction.treatment?.cultural &&
-            prediction.treatment.cultural.trim().length > 0 && (
-              <div className="bg-green-50 rounded-lg p-4">
-                <h4 className="font-medium text-green-900 mb-2 flex items-center">
-                  <Shield className="h-4 w-4 mr-2" />
-                  Cultural Practices
-                </h4>
-                <p className="text-green-800 text-sm">
-                  {prediction.treatment.cultural}
-                </p>
-              </div>
-            )}
+          {prediction.treatment?.cultural?.trim() && (
+            <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
+              <h4 className="font-medium text-green-900 dark:text-green-300 mb-2 flex items-center">
+                <Shield className="h-4 w-4 mr-2" />
+                Cultural Practices
+              </h4>
+              <p className="text-green-800 dark:text-green-400 text-sm">
+                {prediction.treatment.cultural}
+              </p>
+            </div>
+          )}
 
-          {/* Preventive Measures */}
-          {prediction.treatment?.preventive &&
-            prediction.treatment.preventive.trim().length > 0 && (
-              <div className="bg-yellow-50 rounded-lg p-4">
-                <h4 className="font-medium text-yellow-900 mb-2 flex items-center">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Preventive Measures
-                </h4>
-                <p className="text-yellow-800 text-sm">
-                  {prediction.treatment.preventive}
-                </p>
-              </div>
-            )}
+          {prediction.treatment?.preventive?.trim() && (
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4">
+              <h4 className="font-medium text-yellow-900 dark:text-yellow-300 mb-2 flex items-center">
+                <Clock className="h-4 w-4 mr-2" />
+                Preventive Measures
+              </h4>
+              <p className="text-yellow-800 dark:text-yellow-400 text-sm">
+                {prediction.treatment.preventive}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Footer Note */}
-        <div className="bg-gray-50 rounded-lg p-4">
-          <p className="text-sm text-gray-600">
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             <strong>Note:</strong> These recommendations are generated by AI
-            analysis. For severe cases or professional farming operations,
-            please consult with agricultural experts or local extension services
-            for personalized advice.
+            analysis. For severe cases, consult agricultural experts.
           </p>
         </div>
       </div>
