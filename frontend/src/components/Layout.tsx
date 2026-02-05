@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Leaf, Home, Info, Moon, Sun } from "lucide-react";
+import { Leaf, Home, Info, Moon, Sun, ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,31 +11,42 @@ interface LayoutProps {
 
 export function Layout({ children, darkMode, setDarkMode }: LayoutProps) {
   const location = useLocation();
+  const { t, i18n } = useTranslation();
+  const [langOpen, setLangOpen] = useState(false);
 
   const navigation = [
-    { name: "Home", href: "/", icon: Home },
-    { name: "About", href: "/about", icon: Info },
+    { name: t("nav.home"), href: "/", icon: Home },
+    { name: t("nav.about"), href: "/about", icon: Info },
   ];
+
+  const changeLanguage = (lang: "en" | "hi") => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem("lang", lang);
+    setLangOpen(false);
+  };
+
+  const currentLang = i18n.language === "hi" ? "हिंदी" : "English";
 
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      
+
       {/* Header */}
       <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            
+
             {/* Logo */}
             <div className="flex items-center space-x-2">
               <Leaf className="h-8 w-8 text-primary-600" />
               <h1 className="hidden sm:inline text-xl font-bold">
-                Plant Disease Detection
+                {t("app")}
               </h1>
             </div>
 
-            {/* Nav + Toggle */}
+            {/* Nav + Controls */}
             <div className="flex items-center space-x-3 sm:space-x-4">
-              
+
+              {/* Navigation */}
               <nav className="flex space-x-2 sm:space-x-4">
                 {navigation.map((item) => {
                   const Icon = item.icon;
@@ -42,13 +54,12 @@ export function Layout({ children, darkMode, setDarkMode }: LayoutProps) {
 
                   return (
                     <Link
-                      key={item.name}
+                      key={item.href}
                       to={item.href}
-                      className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                        isActive
+                      className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive
                           ? "text-primary-600 bg-primary-50 dark:bg-gray-700"
                           : "hover:text-primary-600 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      }`}
+                        }`}
                     >
                       <Icon className="h-4 w-4" />
                       <span className="hidden sm:inline">{item.name}</span>
@@ -56,6 +67,39 @@ export function Layout({ children, darkMode, setDarkMode }: LayoutProps) {
                   );
                 })}
               </nav>
+
+              {/* 🌐 Language Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setLangOpen(!langOpen)}
+                  className="flex items-center gap-1 px-3 py-2 text-sm rounded-md
+                             hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                >
+                  🌐 {currentLang}
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+
+                {langOpen && (
+                  <div className="absolute right-0 mt-2 w-32 rounded-md shadow-lg
+                                  bg-white dark:bg-gray-800 border
+                                  border-gray-200 dark:border-gray-700 z-50">
+                    <button
+                      onClick={() => changeLanguage("en")}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700
+                        ${i18n.language === "en" && "font-semibold text-primary-600"}`}
+                    >
+                      English
+                    </button>
+                    <button
+                      onClick={() => changeLanguage("hi")}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700
+                        ${i18n.language === "hi" && "font-semibold text-primary-600"}`}
+                    >
+                      हिंदी
+                    </button>
+                  </div>
+                )}
+              </div>
 
               {/* Dark Mode Toggle */}
               <button
@@ -68,6 +112,7 @@ export function Layout({ children, darkMode, setDarkMode }: LayoutProps) {
                   <Moon className="w-5 h-5 text-gray-800 dark:text-gray-200" />
                 )}
               </button>
+
             </div>
           </div>
         </div>
@@ -80,20 +125,8 @@ export function Layout({ children, darkMode, setDarkMode }: LayoutProps) {
 
       {/* Footer */}
       <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
-        <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
-            
-            <div className="flex items-center space-x-2 justify-center sm:justify-start">
-              <Leaf className="h-5 w-5 text-primary-600" />
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                
-              </span>
-            </div>
-
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              
-            </div>
-          </div>
+        <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 text-sm text-gray-600 dark:text-gray-400 text-center">
+          © 2026 Plant Disease Detection
         </div>
       </footer>
     </div>
