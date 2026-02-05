@@ -4,7 +4,7 @@ export function AboutPage() {
   return (
     <div className="container py-8 transition-colors duration-300">
       <div className="max-w-4xl mx-auto">
-        
+
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
@@ -32,7 +32,7 @@ export function AboutPage() {
 
         {/* Features + Tech */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          
+
           {/* Left */}
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
