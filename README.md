@@ -80,13 +80,13 @@ Built to help farmers, students, and researchers identify crop diseases quickly 
 ### 📊 Detection Result
 ![Prediction Result](screenshots/image3.png)
 
-### 📊 Detection Result
+### Treatments
 ![Treatments](screenshots/image4.png)
 
-### 📊 Detection Result
+### Multilangual
 ![Multilangual](screenshots/image5.png)
 
-### 📊 Detection Result
+### Responsiveness Result
 ![Responsiveness Result](screenshots/image6.png)
 
 
