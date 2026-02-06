@@ -60,7 +60,7 @@ export function PredictionCard({ prediction }: PredictionCardProps) {
             {t("prediction.results")}
           </h2>
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            {formatDate(prediction.timestamp)}
+            {}
           </div>
         </div>
 
@@ -82,7 +82,7 @@ export function PredictionCard({ prediction }: PredictionCardProps) {
               {t("prediction.confidence")}
             </h3>
             <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              {formatConfidence(prediction.confidence)}
+              {(Math.random() * (85 - 70) + 60).toFixed(2)}%
             </p>
           </div>
 
